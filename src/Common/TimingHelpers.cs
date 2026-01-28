@@ -30,18 +30,18 @@ public static class TimingHelpers
     }
 
     /// <summary>
-    /// Adds a small artificial delay to increase chance of race conditions.
+    /// Yields briefly to increase chance of race conditions (faster than Sleep(1)).
     /// </summary>
     public static void SmallDelay()
     {
-        Thread.Sleep(1);
+        Thread.Sleep(0);
     }
 
     /// <summary>
-    /// Adds a small artificial delay asynchronously.
+    /// Yields asynchronously to increase interleaving (faster than Delay(1)).
     /// </summary>
     public static async Task SmallDelayAsync()
     {
-        await Task.Delay(1);
+        await Task.Yield();
     }
 }
