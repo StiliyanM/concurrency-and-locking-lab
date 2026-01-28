@@ -18,10 +18,10 @@ public static class LockOrderingDeadlock
         {
             lock (LockA)
             {
-                TimingHelpers.SmallDelay();
                 lock (LockB)
                 {
-                    TimingHelpers.SmallDelay();
+                    // No delay needed: we only need to show that consistent ordering completes.
+                    // Delays in Before help trigger deadlock; here they cause timeout under load.
                 }
             }
         });
