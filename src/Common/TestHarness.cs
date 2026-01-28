@@ -91,11 +91,11 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
         var sw = Stopwatch.StartNew();
 
         var tasks = Enumerable.Range(0, concurrencyLevel)
-            .Select(async threadId =>
+            .Select(threadId => Task.Run(async () =>
             {
                 try
                 {
-                    // Wait for all threads to be ready
+                    // Wait for all threads to be ready (must run on thread-pool so main thread can join barrier)
                     barrier.SignalAndWait(cts.Token);
 
                     // Execute the async work
@@ -107,7 +107,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
                 {
                     exceptions.Add(ex);
                 }
-            })
+            }))
             .ToArray();
 
         try
