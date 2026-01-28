@@ -8,7 +8,7 @@ namespace LabRunner;
 /// </summary>
 public class LabMenu
 {
-    private const int DefaultConcurrencyLevel = 100;
+    private const int DefaultConcurrencyLevel = 10;
     private const int DefaultTimeoutSeconds = 10;
 
     public async Task RunAsync()
