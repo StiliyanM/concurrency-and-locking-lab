@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj" />
+    <PackageReference Include="System.Collections.Immutable" Version="9.0.0" />
   </ItemGroup>
 
 </Project>
