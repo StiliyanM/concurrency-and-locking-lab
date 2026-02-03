@@ -54,6 +54,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
             }))
             .ToArray();
 
+        var timedOut = false;
         try
         {
             // Signal that main thread is ready
@@ -64,7 +65,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
         }
         catch (OperationCanceledException)
         {
-            // Timeout occurred - potential deadlock
+            timedOut = true; // Harness had to abort wait (deadlock or timeout)
         }
 
         sw.Stop();
@@ -75,7 +76,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
             ExpectedCount = concurrencyLevel,
             Exceptions = [..exceptions],
             ElapsedMilliseconds = sw.ElapsedMilliseconds,
-            TimedOut = completedCount < concurrencyLevel
+            TimedOut = timedOut
         };
     }
 
@@ -110,6 +111,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
             }))
             .ToArray();
 
+        var timedOut = false;
         try
         {
             // Signal that main thread is ready
@@ -120,7 +122,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
         }
         catch (OperationCanceledException)
         {
-            // Timeout occurred - potential deadlock
+            timedOut = true; // Harness had to abort wait (deadlock or timeout)
         }
 
         sw.Stop();
@@ -131,7 +133,7 @@ public class TestHarness(int concurrencyLevel, TimeSpan timeout)
             ExpectedCount = concurrencyLevel,
             Exceptions = [..exceptions],
             ElapsedMilliseconds = sw.ElapsedMilliseconds,
-            TimedOut = completedCount < concurrencyLevel
+            TimedOut = timedOut
         };
     }
 }
