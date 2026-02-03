@@ -1,5 +1,8 @@
 using Common;
+using ConcurrentDictionary;
+using InterlockedAndLazy;
 using Lock;
+using SemaphoreSlim;
 
 namespace LabRunner;
 
@@ -78,11 +81,12 @@ public class LabMenu
         Console.WriteLine("0. Back");
         Console.Write("\nChoice: ");
 
-        var choice = Console.ReadLine();
-        var concurrencyLevel = GetConcurrencyLevel();
+        var choice = Console.ReadLine()?.Trim();
+        if (choice is "0" or null)
+            return;
 
-        Console.WriteLine($"\nRunning scenario {choice} with concurrency level {concurrencyLevel}...");
-        Console.WriteLine("(Scenarios will be implemented in next phase)");
+        var concurrencyLevel = GetConcurrencyLevel();
+        await SemaphoreSlimRunner.RunScenarioAsync(choice, concurrencyLevel);
     }
 
     private async Task RunConcurrentDictionaryAsync()
@@ -97,11 +101,12 @@ public class LabMenu
         Console.WriteLine("0. Back");
         Console.Write("\nChoice: ");
 
-        var choice = Console.ReadLine();
-        var concurrencyLevel = GetConcurrencyLevel();
+        var choice = Console.ReadLine()?.Trim();
+        if (choice is "0" or null)
+            return;
 
-        Console.WriteLine($"\nRunning scenario {choice} with concurrency level {concurrencyLevel}...");
-        Console.WriteLine("(Scenarios will be implemented in next phase)");
+        var concurrencyLevel = GetConcurrencyLevel();
+        await ConcurrentDictionaryRunner.RunScenarioAsync(choice, concurrencyLevel);
     }
 
     private async Task RunInterlockedAndLazyAsync()
@@ -115,11 +120,12 @@ public class LabMenu
         Console.WriteLine("0. Back");
         Console.Write("\nChoice: ");
 
-        var choice = Console.ReadLine();
-        var concurrencyLevel = GetConcurrencyLevel();
+        var choice = Console.ReadLine()?.Trim();
+        if (choice is "0" or null)
+            return;
 
-        Console.WriteLine($"\nRunning scenario {choice} with concurrency level {concurrencyLevel}...");
-        Console.WriteLine("(Scenarios will be implemented in next phase)");
+        var concurrencyLevel = GetConcurrencyLevel();
+        await InterlockedAndLazyRunner.RunScenarioAsync(choice, concurrencyLevel);
     }
 
     private int GetConcurrencyLevel()
