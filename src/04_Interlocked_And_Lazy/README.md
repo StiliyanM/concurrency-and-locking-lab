@@ -22,6 +22,8 @@
 **Use Lazy&lt;T&gt; when you need exactly-once initialization.**  
 **Use Lazy&lt;Task&lt;T&gt;&gt; for single-flight async init.**
 
+**Interlocked vs lock:** Interlocked is lock-free — no blocking, better under contention for a single variable. Use it for counters, max/min, simple CAS. Use `lock` when the critical section spans multiple steps or variables.
+
 ## Common traps
 
 - Read-modify-write (read, compute, write) is not atomic; use Interlocked or lock.

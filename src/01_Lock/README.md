@@ -22,6 +22,8 @@
 **Use `lock` for short, synchronous critical sections.**  
 **If you need to wait asynchronously, don’t use `lock`.**
 
+**Lock vs Interlocked:** Both Lost Updates and Atomic Counters fix a non-atomic increment. Use `lock` when the critical section does more than a single primitive op (e.g. read-modify-write across multiple variables). Use `Interlocked` when it's a single atomic op (increment, add, exchange) — no lock, better scalability.
+
 ## Common traps
 
 - Re-entering the same lock from the same thread is allowed (Monitor is reentrant); other primitives (e.g. SemaphoreSlim) are not.

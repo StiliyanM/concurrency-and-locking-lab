@@ -5,8 +5,8 @@
 - Thread-safe cache lookup (lock-free reads with ConcurrentDictionary)
 - GetOrAdd factory running multiple times (Lazy to ensure single execution per key)
 - Atomic counters with AddOrUpdate
-- ImmutableDictionary for snapshot isolation
-- Builder pattern for constructing immutable collections
+- ImmutableArray for snapshot isolation (capture reference = stable snapshot)
+- Builder pattern for constructing immutable collections (ImmutableArray.CreateBuilder)
 
 ## Scenarios
 

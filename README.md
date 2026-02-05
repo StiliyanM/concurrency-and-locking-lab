@@ -9,6 +9,23 @@ A hands-on, example-driven codebase that teaches how to choose and use concurren
 
 This is not a "theory repo" and not a "cookbook". It's a set of small, realistic scenarios that demonstrate what breaks, why it breaks, and what the right tool looks like.
 
+## When to use what
+
+| Need | Use |
+|------|-----|
+| **Mutual exclusion** (sync only, no await) | `lock` (Monitor) |
+| **Mutual exclusion** (async, await inside) | `SemaphoreSlim` + `WaitAsync` |
+| **Throttle** (limit concurrent work) | `SemaphoreSlim` |
+| **Single-flight** (one execution, many awaiters) | `Lazy<T>` or `Lazy<Task<T>>` |
+| **Thread-safe dictionary** (many reads) | `ConcurrentDictionary` |
+| **Per-key single-flight** | `ConcurrentDictionary` + `Lazy<Task<T>>` |
+| **Atomic counter** (increment, add) | `Interlocked.Increment` / `Add` |
+| **Atomic update** (e.g. max) | `Interlocked.CompareExchange` loop |
+| **Stable snapshot** (iterate without blocking writers) | `ImmutableArray` / `ImmutableList` |
+| **Lazy init** (exactly once) | `Lazy<T>` |
+
+**Avoid:** `lock` + `await` or `Task.Wait()` on work that needs the same lock → deadlock.
+
 ## Project Structure
 
 ```
