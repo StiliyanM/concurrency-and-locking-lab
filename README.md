@@ -7,7 +7,7 @@ A hands-on, example-driven codebase that teaches how to choose and use concurren
 - Understanding async pitfalls
 - Practical patterns used in high-throughput services
 
-This is not a "theory repo" and not a "cookbook". It's a set of small, realistic scenarios that demonstrate what breaks, why it breaks, and what the right tool looks like.
+This is a set of small, realistic scenarios that demonstrate what breaks, why it breaks, and what the right tool looks like.
 
 ## When to use what
 
@@ -93,7 +93,7 @@ This is not a "theory repo" and not a "cookbook". It's a set of small, realistic
 
 I built these examples around concurrency problems I’ve worked on. They’re small exercises you can run and break yourself.
 
-- **01: lock / Monitor.** The lost-update and lock-ordering examples connect to my work on an in-memory nomenclature cache at EGT. Shared mutable state made the boundaries of each lock matter.
+- **01: lock / Monitor.** The lost-update and lock-ordering examples connect to an in-memory nomenclature cache at EGT.
 - **02: SemaphoreSlim.** At PayRetailers, I added per-card concurrency control through MediatR behaviours so 2 status updates for the same card couldn’t race.
 - **03: ConcurrentDictionary and immutable collections.** The cache and duplicate-factory examples relate to my Segment API fix: coalescing requests per segment cut external calls from about 30 to 10 and made the measured flow roughly 3.8x faster. In production, I used a per-segment SemaphoreSlim and a double-checked cache.
 - **04: Interlocked and Lazy.** I moved cache warm-up out of a service constructor and into a hosted service, then swapped immutable snapshots with Interlocked.Exchange so reads needed no locks. The refactor removed a 5–6 second first-request delay and cut startup from about 30 seconds to under 1.
