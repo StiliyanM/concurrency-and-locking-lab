@@ -88,3 +88,12 @@ This is not a "theory repo" and not a "cookbook". It's a set of small, realistic
 ## Requirements
 
 - .NET 10 SDK
+
+## Production problems behind the modules
+
+I built these examples around concurrency problems I’ve worked on. They’re small exercises you can run and break yourself.
+
+- **01: lock / Monitor.** The lost-update and lock-ordering examples connect to my work on an in-memory nomenclature cache at EGT. Shared mutable state made the boundaries of each lock matter.
+- **02: SemaphoreSlim.** At PayRetailers, I added per-card concurrency control through MediatR behaviours so 2 status updates for the same card couldn’t race.
+- **03: ConcurrentDictionary and immutable collections.** The cache and duplicate-factory examples relate to my Segment API fix: coalescing requests per segment cut external calls from about 30 to 10 and made the measured flow roughly 3.8x faster. In production, I used a per-segment SemaphoreSlim and a double-checked cache.
+- **04: Interlocked and Lazy.** I moved cache warm-up out of a service constructor and into a hosted service, then swapped immutable snapshots with Interlocked.Exchange so reads needed no locks. The refactor removed a 5–6 second first-request delay and cut startup from about 30 seconds to under 1.
